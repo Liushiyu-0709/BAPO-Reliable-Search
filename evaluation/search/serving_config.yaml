@@ -1,0 +1,11 @@
+# ------------------------------------------------Environment Settings------------------------------------------------#
+# gpu_id: "1,2"
+# -------------------------------------------------Retrieval Settings------------------------------------------------#
+# If set the name, the model path will be find in global paths
+retrieval_method: "{your_path}/e5-base-v2"  # name or path of the retrieval model.
+index_path: "{your_path}/e5_flat_inner.index" # path to the indexed file
+faiss_gpu: True # whether use gpu to hold index
+corpus_path: "{your_path}/wiki18_100w.jsonl"  # path to corpus in '.jsonl' format that store the 
+
+
+
