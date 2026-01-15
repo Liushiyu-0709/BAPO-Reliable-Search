@@ -872,7 +872,7 @@ class RayPPOTrainer(object):
                         
                         # if open oversample_faith and enter in plateau stage, use oversample_faith
                         if self.config.actor_rollout_ref.rollout.oversample_faith and self.reward_fn.early_stage == False:
-                            gen_batch_output = self.actor_rollout_wg.generate_sequences_oversample_faith(gen_batch)
+                            gen_batch_output = self.actor_rollout_wg.generate_sequences_oversample(gen_batch)
                         else:
                             gen_batch_output = self.actor_rollout_wg.generate_sequences(gen_batch)
 
