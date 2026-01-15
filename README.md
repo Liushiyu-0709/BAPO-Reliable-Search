@@ -2,7 +2,7 @@
 ## BAPO: Boundary-Aware Policy Optimization for Reliable Agentic Search
 <div align="center"> 
 
-[![Paper](https://img.shields.io/badge/Paper-arXiv-b5212f.svg?logo=arxiv)]()
+[![Paper](https://img.shields.io/badge/Paper-arXiv-b5212f.svg?logo=arxiv)](https://arxiv.org/abs/2505.16410)
 [![License](https://img.shields.io/badge/LICENSE-MIT-green.svg)](https://opensource.org/licenses/MIT) 
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/release/python-390/) 
 
@@ -25,7 +25,12 @@ conda create -n bapo python==3.10
 conda activate bapo
 
 # install torch
-pip3 install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+pip3 install torch==2.4.0 --index-url https://download.pytorch.org/whl/cu124
+
+# install flash-attn
+wget https://github.com/Dao-AILab/flash-attention/releases/download/v2.7.3/flash_attn-2.7.3+cu12torch2.4cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
+
+pip install flash_attn-2.7.3+cu12torch2.4cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
 
 # install faiss gpu
 # Due to the incompatibility when installing faiss using pip, it is necessary to use the following conda command for installation.
@@ -36,9 +41,13 @@ conda install -c pytorch -c nvidia faiss-gpu=1.8.0
 cd RL_train
 pip3 install -e .
 
+# install verl
+cd src/verl
+pip install -e .
+
 # install other requirements
-cd ../
-pip install -r requirements.txt
+pip install bs4==0.0.2 pdfplumber==0.11.6 chardet==5.2.0
+pip install timeout_decorator Pebble==5.1.1
 ```
 
 ### 2. Model Download
@@ -269,9 +278,7 @@ python evaluate/scripts/evaluate.py \
 ---
 ## 📚 Documentation
 We have provided a comprehensive code implementation guide for BAPO to help users understand the codebase and facilitate replication and modification.
-
-- [Code Implementation Guide](./RL_train/BAPO_IMPLEMENTATION_README.md)
-
+[Code Implementation Guide]()
 ---
 
 ## 🙏 Acknowledgements
