@@ -278,7 +278,9 @@ python evaluate/scripts/evaluate.py \
 ---
 ## 📚 Documentation
 We have provided a comprehensive code implementation guide for BAPO to help users understand the codebase and facilitate replication and modification.
-[Code Implementation Guide]()
+
+- [Code Implementation Guide](./RL_train/BAPO_IMPLEMENTATION_README.md)
+
 ---
 
 ## 🙏 Acknowledgements
