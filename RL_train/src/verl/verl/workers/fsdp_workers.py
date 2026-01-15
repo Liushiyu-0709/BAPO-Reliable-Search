@@ -484,13 +484,51 @@ class ActorRolloutRefWorker(Worker):
             log_gpu_memory_usage('After entering rollout sharding manager', logger=logger)
             
             prompts = self.rollout_sharding_manager.preprocess_data(prompts)
-            if self.config.rollout.oversample_faith: #if use oversample
-                ground_truth_ls = [data.non_tensor_batch['reward_model']['ground_truth'] for data in prompts]
-                ground_truth_ls = self.rollout_sharding_manager.allgather_list(ground_truth_ls)
-                
-                output = self.rollout.generate_sequences_oversample(prompts=prompts, ground_truth_ls=ground_truth_ls, max_resample_attempts=self.config.rollout.oversample_attempts)
-            else:
-                output = self.rollout.generate_sequences(prompts=prompts)
+            output = self.rollout.generate_sequences(prompts=prompts)
+
+            log_gpu_memory_usage('After rollout generation', logger=logger)
+
+            output = self.rollout_sharding_manager.postprocess_data(output)
+
+        output = output.to('cpu')
+
+        if self._is_offload_param:
+            # NOTE(sgm): the grad is already in CPU, only offload param here
+            offload_fsdp_param_and_grad(module=self.actor_module_fsdp, offload_grad=self._is_offload_grad)
+        # clear kv cache
+        torch.cuda.empty_cache()
+        log_gpu_memory_usage('After recompute log prob', logger=logger)
+        return output
+
+    @register(dispatch_mode=Dispatch.DP_COMPUTE_PROTO)
+    def generate_sequences_oversample(self, prompts: DataProto):
+        prompts = prompts.to('cuda')
+
+        assert self._is_rollout
+        if self._is_offload_param:
+            load_fsdp_param_and_grad(module=self.actor_module_fsdp,
+                                     device_id=torch.cuda.current_device(),
+                                     load_grad=self._is_offload_grad)
+
+        prompts.batch = prompts.batch.cuda()
+        meta_info = {
+            'eos_token_id':
+                self.generation_config.eos_token_id
+                if self.generation_config is not None else self.tokenizer.eos_token_id,
+            'pad_token_id':
+                self.generation_config.pad_token_id
+                if self.generation_config is not None else self.tokenizer.pad_token_id,
+        }
+        prompts.meta_info.update(meta_info)
+        
+        with self.rollout_sharding_manager:
+            log_gpu_memory_usage('After entering rollout sharding manager', logger=logger)
+            
+            prompts = self.rollout_sharding_manager.preprocess_data(prompts)
+            ground_truth_ls = [data.non_tensor_batch['reward_model']['ground_truth'] for data in prompts]
+            ground_truth_ls = self.rollout_sharding_manager.allgather_list(ground_truth_ls)
+            
+            output = self.rollout.generate_sequences_oversample(prompts=prompts, ground_truth_ls=ground_truth_ls, max_resample_attempts=self.config.rollout.oversample_attempts)
 
             log_gpu_memory_usage('After rollout generation', logger=logger)
 
