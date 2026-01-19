@@ -211,7 +211,7 @@ python run.py \
     --counts 200 \
     --batch_size 100
 ```
-
+We have provided an inference script in [run_qa.sh](./evaluation/run_qa.sh)
 
 #### Parameter Explanations
 
