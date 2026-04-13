@@ -283,6 +283,17 @@ We have provided a comprehensive code implementation guide for BAPO to help user
 
 ---
 
+## 📃 Citation
+
+```
+@article{liu2026bapo,
+  title={BAPO: Boundary-Aware Policy Optimization for Reliable Agentic Search},
+  author={Liu, Shiyu and Yin, Yongjing and Yan, Jianhao and Tang, Yunbo and Zhang, Qinggang and Li, Bei and Chen, Xin and Wang, Jingang and Cai, Xunliang and Su, Jinsong},
+  journal={arXiv preprint arXiv:2601.11037},
+  year={2026}
+}
+```
+
 ## 🙏 Acknowledgements
 
 This work is implemented based on [verl](https://github.com/volcengine/verl), [ReCall](https://github.com/Agent-RL/ReCall) and [Tool-Star](https://github.com/RUC-NLPIR/Tool-Star). We sincerely thank the authors of these projects for their valuable contributions to the open-source community.
