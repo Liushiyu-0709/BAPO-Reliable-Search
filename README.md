@@ -283,6 +283,11 @@ We have provided a comprehensive code implementation guide for BAPO to help user
 
 ---
 
+
+## 🙏 Acknowledgements
+
+This work is implemented based on [verl](https://github.com/volcengine/verl), [ReCall](https://github.com/Agent-RL/ReCall) and [Tool-Star](https://github.com/RUC-NLPIR/Tool-Star). We sincerely thank the authors of these projects for their valuable contributions to the open-source community.
+
 ## 📃 Citation
 
 ```
@@ -293,9 +298,5 @@ We have provided a comprehensive code implementation guide for BAPO to help user
   year={2026}
 }
 ```
-
-## 🙏 Acknowledgements
-
-This work is implemented based on [verl](https://github.com/volcengine/verl), [ReCall](https://github.com/Agent-RL/ReCall) and [Tool-Star](https://github.com/RUC-NLPIR/Tool-Star). We sincerely thank the authors of these projects for their valuable contributions to the open-source community.
 
 
